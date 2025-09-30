@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnoSicurezza - Formazione Sicurezza</title>
+    <title>UnoSicurezza - Formazione Sicurezza sul Lavoro</title>
+    <meta name="description" content="UnoSicurezza offre corsi di formazione professionale sulla sicurezza sul lavoro. Corsi certificati per aziende e professionisti in tutta Italia.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -41,55 +41,9 @@
             background: #7dd3b1 !important;
         }
 
-        .app-store-badge {
-            display: inline-flex;
-            align-items: center;
-            background: #000;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: background 0.3s;
-            height: 52px;
-            min-width: 135px;
-        }
-
-        .app-store-badge:hover {
-            background: #333;
-        }
-
-        .app-store-badge svg {
-            width: 28px;
-            height: 28px;
-            margin-right: 8px;
-            flex-shrink: 0;
-        }
-
-        .app-store-text {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            line-height: 1.1;
-        }
-
-        .app-store-text-small {
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            opacity: 0.85;
-            font-weight: 400;
-        }
-
-        .app-store-text-large {
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 1px;
-        }
-
         .star-rating {
             display: inline-flex;
             gap: 4px;
-            cursor: pointer;
         }
 
         .star {
@@ -97,646 +51,624 @@
             color: #d1d5db;
             transition: color 0.2s;
             cursor: pointer;
+            user-select: none;
         }
 
         .star.active {
             color: #fbbf24;
         }
 
-        .star:hover,
-        .star:hover~.star {
-            color: #fbbf24;
+        .coursesSwiper .swiper-wrapper {
+            align-items: stretch;
         }
 
-        @media (max-width: 768px) {
-            .app-store-badge {
-                height: 48px;
-                min-width: 130px;
-                padding: 6px 12px;
-            }
-
-            .app-store-badge svg {
-                width: 24px;
-                height: 24px;
-                margin-right: 6px;
-            }
-
-            .app-store-text-small {
-                font-size: 8px;
-            }
-
-            .app-store-text-large {
-                font-size: 14px;
-            }
+        .coursesSwiper .swiper-slide {
+            display: flex;
+            align-items: stretch;
         }
 
-        @media (max-width: 425px) {
-            .app-store-badge {
-                height: 44px;
-                min-width: 120px;
-                padding: 5px 10px;
-            }
+        .course-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
 
-            .app-store-badge svg {
-                width: 22px;
-                height: 22px;
-                margin-right: 5px;
-            }
+        .course-card .card-media img {
+            height: 12rem;
+            width: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
-            .app-store-text-small {
-                font-size: 7px;
-            }
+        .course-card .card-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            padding: 0.75rem;
+        }
 
-            .app-store-text-large {
-                font-size: 13px;
-            }
+        .course-card .card-actions {
+            margin-top: auto;
+        }
+
+        /* Mobile Drawer Styles */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 320px;
+            height: 100vh;
+            background: white;
+            transition: right 0.3s ease;
+            z-index: 9999;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .mobile-drawer.active {
+            right: 0;
+        }
+
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 9998;
+        }
+
+        .drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        body.drawer-open {
+            overflow: hidden;
         }
     </style>
 </head>
 
-<body class="bg-gray-50">
-    <div class="drawer drawer-end">
-        <input id="mobile-drawer" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content">
-            <header class="bg-white shadow-sm sticky top-0 z-50">
-                <div class="max-w-[1200px] mx-auto px-4">
-                    <nav class="flex items-center justify-between py-4">
-                        <a href="#" class="flex items-center space-x-2">
-                            <img src="images/logo.png" alt="UnoSicurezza Logo" class="h-10 md:h-12 w-auto">
-                        </a>
+<body>
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
 
-                        <div class="hidden lg:flex items-center space-x-6 xl:space-x-8">
-                            <a href="#" class="text-brand-green font-medium">Home</a>
-                            <div class="dropdown dropdown-hover">
-                                <label tabindex="0"
-                                    class="text-gray-700 hover:text-brand-green flex items-center cursor-pointer">
-                                    Servizi
-                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </label>
-                            </div>
-                            <a href="#" class="text-gray-700 hover:text-brand-green">Formazione</a>
-                            <a href="#" class="text-gray-700 hover:text-brand-green">Chi siamo</a>
-                            <a href="#" class="text-gray-700 hover:text-brand-green">Collabora con noi</a>
-                            <a href="#" class="text-gray-700 hover:text-brand-green">Contattaci</a>
-                            <button
-                                class="bg-brand-green text-white px-6 py-2 rounded-full hover:bg-brand-green-dark transition-colors">
-                                E-Learning
-                            </button>
-                        </div>
+    <!-- ================= Header Section Start ================= -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-[1200px] mx-auto px-4">
+            <nav class="flex items-center justify-between py-4">
+                <a href="#" class="flex items-center space-x-2">
+                    <img src="images/logo.png" alt="UnoSicurezza - Formazione Sicurezza sul Lavoro" class="h-10 md:h-12 w-auto">
+                </a>
 
-                        <label for="mobile-drawer" class="lg:hidden btn btn-square btn-ghost">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16"></path>
+                <div class="hidden lg:flex items-center space-x-6 xl:space-x-8">
+                    <a href="#" class="text-brand-green font-medium">Home</a>
+                    <div class="dropdown dropdown-hover">
+                        <label tabindex="0" class="text-gray-700 hover:text-brand-green flex items-center cursor-pointer">
+                            Servizi
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </label>
-                    </nav>
+                        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-white rounded-box w-52 mt-2">
+                            <li><a href="#" class="hover:text-brand-green">Consulenza</a></li>
+                            <li><a href="#" class="hover:text-brand-green">Formazione</a></li>
+                            <li><a href="#" class="hover:text-brand-green">Certificazione</a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="text-gray-700 hover:text-brand-green">Formazione</a>
+                    <a href="#" class="text-gray-700 hover:text-brand-green">Chi siamo</a>
+                    <a href="#" class="text-gray-700 hover:text-brand-green">Collabora con noi</a>
+                    <a href="#" class="text-gray-700 hover:text-brand-green">Contattaci</a>
+                    <button class="bg-brand-green text-white px-6 py-2 rounded-full hover:bg-brand-green-dark transition-colors">
+                        E-Learning
+                    </button>
                 </div>
-            </header>
 
-            <section class="bg-white py-8 md:py-12 lg:py-20">
-                <div class="max-w-[1200px] mx-auto px-4">
-                    <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
-                        <div class="space-y-4 md:space-y-6">
-                            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
-                                UnoSicurezza
-                            </h1>
-                            <h2 class="text-lg md:text-xl lg:text-2xl text-gray-600 font-medium">
-                                Ogni nuova competenza è un passo avanti verso il successo.
-                            </h2>
-                            <p class="text-gray-600 text-base md:text-lg leading-relaxed">
-                                Essere in regola con la sicurezza significa proteggere il bene più prezioso: le persone
-                                che contribuiscono al successo della tua azienda. Affidati a noi.
-                            </p>
-                            <button
-                                class="bg-brand-green text-white px-10 md:px-12 py-4 md:py-5 rounded-full text-lg md:text-xl font-bold hover:bg-brand-green-dark transition-colors">
-                                Esplora i nostri servizi
-                            </button>
-                        </div>
-
-                        <div class="relative">
-                            <img src="images/hero1.png" alt="UnoSicurezza Training" class="w-full h-auto">
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="py-8 md:py-12 lg:py-16 bg-gray-50">
-                <div class="max-w-[1200px] mx-auto px-4">
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 md:mb-12 text-left">
-                        Esplora il nostro catalogo corsi
-                    </h2>
-
-                    <div class="swiper coursesSwiper relative pb-12">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide h-auto">
-                                <div
-                                    class="bg-white rounded-lg shadow-sm overflow-hidden h-full flex flex-col justify-between">
-                                    <div class="relative">
-                                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                                            alt="SEVESO Course" class="w-full h-48 object-cover">
-                                        <div
-                                            class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            08 hr 12 mins
-                                        </div>
-                                    </div>
-                                    <div class="p-4 md:p-6 flex flex-col flex-grow">
-                                        <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                                            Formazione SEVESO – pacchetto annuale
-                                        </h3>
-                                        <p class="text-sm md:text-base text-gray-600 mb-4 flex-grow">
-                                            Corso "Seveso III" si riferisce alla direttiva UE 2012/18/UE sulla
-                                            prevenzione degli incidenti rilevanti che comportano sostanze pericolose.
-                                        </p>
-                                        <div class="mt-auto">
-                                            <div class="flex items-center justify-between mb-4">
-                                                <div class="flex items-center space-x-2">
-                                                    <div class="flex items-center">
-                                                        <span class="text-brand-green font-bold mr-1">4.3</span>
-                                                        <div class="flex text-yellow-400">
-                                                            <span>★★★★★</span>
-                                                        </div>
-                                                        <span class="text-gray-500 text-sm ml-2">(16,325)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="flex items-center justify-between mb-6">
-                                                <div class="flex items-center space-x-2">
-                                                    <span
-                                                        class="text-gray-400 line-through text-sm md:text-base">€60.00</span>
-                                                    <span
-                                                        class="text-xl md:text-2xl font-bold text-brand-green">€50.00</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex gap-2 md:gap-3">
-                                                <button
-                                                    class="flex-1 bg-brand-green text-white py-2.5 md:py-3 px-4 md:px-6 rounded-full text-sm md:text-base font-medium hover:bg-brand-green-dark transition-colors">
-                                                    Iscriviti Ora
-                                                </button>
-                                                <button
-                                                    class="px-4 md:px-6 py-2.5 md:py-3 border border-gray-300 text-gray-700 rounded-full text-sm md:text-base font-medium hover:bg-gray-50 transition-colors">
-                                                    Dettagli
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide h-auto">
-                                <div
-                                    class="bg-white rounded-lg shadow-sm overflow-hidden h-full flex flex-col justify-between">
-                                    <div class="relative">
-                                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                                            alt="Datore di lavoro Course" class="w-full h-48 object-cover">
-                                        <div
-                                            class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            16 hr 0 mins
-                                        </div>
-                                    </div>
-                                    <div class="p-4 md:p-6 flex flex-col flex-grow">
-                                        <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                                            Datore di lavoro (Nuovo) 16 ore
-                                        </h3>
-                                        <p class="text-sm md:text-base text-gray-600 mb-4 flex-grow">
-                                            Accordo, ai sensi dell'articolo 37, comma 2, del decreto legislativo 9
-                                            aprile 2008, n. 81, tra il Governo, le regioni e le Province autonome di
-                                            Trento e di Bolzano, finalizzato alla individu...
-                                        </p>
-                                        <div class="mt-auto">
-                                            <div class="flex items-center justify-between mb-4">
-                                                <div class="flex items-center space-x-2">
-                                                    <div class="flex items-center">
-                                                        <span class="text-brand-green font-bold mr-1">4.3</span>
-                                                        <div class="flex text-yellow-400">
-                                                            <span>★★★★★</span>
-                                                        </div>
-                                                        <span class="text-gray-500 text-sm ml-2">(16,325)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="flex items-center justify-between mb-6">
-                                                <div class="flex items-center space-x-2">
-                                                    <span
-                                                        class="text-gray-400 line-through text-sm md:text-base">€180.00</span>
-                                                    <span
-                                                        class="text-xl md:text-2xl font-bold text-brand-green">€110.00</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex gap-2 md:gap-3">
-                                                <button
-                                                    class="flex-1 bg-brand-green text-white py-2.5 md:py-3 px-4 md:px-6 rounded-full text-sm md:text-base font-medium hover:bg-brand-green-dark transition-colors">
-                                                    Iscriviti Ora
-                                                </button>
-                                                <button
-                                                    class="px-4 md:px-6 py-2.5 md:py-3 border border-gray-300 text-gray-700 rounded-full text-sm md:text-base font-medium hover:bg-gray-50 transition-colors">
-                                                    Dettagli
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide h-auto">
-                                <div
-                                    class="bg-white rounded-lg shadow-sm overflow-hidden h-full flex flex-col justify-between">
-                                    <div class="relative">
-                                        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                                            alt="Generale Course" class="w-full h-48 object-cover">
-                                        <div
-                                            class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            04 hr 0 mins
-                                        </div>
-                                    </div>
-                                    <div class="p-4 md:p-6 flex flex-col flex-grow">
-                                        <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                                            Generale 4 ore
-                                        </h3>
-                                        <p class="text-sm md:text-base text-gray-600 mb-4 flex-grow">
-                                            Accordo, ai sensi dell'articolo 37, comma 2, del decreto legislativo 9
-                                            aprile 2008, n. 81, tra il Governo, le regioni e le Province autonome di
-                                            Trento e di Bolzano, finalizzato alla individu...
-                                        </p>
-                                        <div class="mt-auto">
-                                            <div class="flex items-center justify-between mb-4">
-                                                <div class="flex items-center space-x-2">
-                                                    <div class="flex items-center">
-                                                        <span class="text-brand-green font-bold mr-1">4.3</span>
-                                                        <div class="flex text-yellow-400">
-                                                            <span>★★★★★</span>
-                                                        </div>
-                                                        <span class="text-gray-500 text-sm ml-2">(16,325)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="flex items-center justify-between mb-6">
-                                                <div class="flex items-center space-x-2">
-                                                    <span
-                                                        class="text-gray-400 line-through text-sm md:text-base">€50.00</span>
-                                                    <span
-                                                        class="text-xl md:text-2xl font-bold text-brand-green">€40.00</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex gap-2 md:gap-3">
-                                                <button
-                                                    class="flex-1 bg-brand-green text-white py-2.5 md:py-3 px-4 md:px-6 rounded-full text-sm md:text-base font-medium hover:bg-brand-green-dark transition-colors">
-                                                    Iscriviti Ora
-                                                </button>
-                                                <button
-                                                    class="px-4 md:px-6 py-2.5 md:py-3 border border-gray-300 text-gray-700 rounded-full text-sm md:text-base font-medium hover:bg-gray-50 transition-colors">
-                                                    Dettagli
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide h-auto">
-                                <div
-                                    class="bg-white rounded-lg shadow-sm overflow-hidden h-full flex flex-col justify-between">
-                                    <div class="relative">
-                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                                            alt="Safety Course" class="w-full h-48 object-cover">
-                                        <div
-                                            class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            06 hr 30 mins
-                                        </div>
-                                    </div>
-                                    <div class="p-4 md:p-6 flex flex-col flex-grow">
-                                        <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                                            Sicurezza Cantieri 6 ore
-                                        </h3>
-                                        <p class="text-sm md:text-base text-gray-600 mb-4 flex-grow">
-                                            Corso specializzato per la formazione dei lavoratori operanti nei cantieri
-                                            edili secondo la normativa vigente in materia di sicurezza sul lavoro.
-                                        </p>
-                                        <div class="mt-auto">
-                                            <div class="flex items-center justify-between mb-4">
-                                                <div class="flex items-center space-x-2">
-                                                    <div class="flex items-center">
-                                                        <span class="text-brand-green font-bold mr-1">4.5</span>
-                                                        <div class="flex text-yellow-400">
-                                                            <span>★★★★★</span>
-                                                        </div>
-                                                        <span class="text-gray-500 text-sm ml-2">(12,850)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="flex items-center justify-between mb-6">
-                                                <div class="flex items-center space-x-2">
-                                                    <span
-                                                        class="text-gray-400 line-through text-sm md:text-base">€75.00</span>
-                                                    <span
-                                                        class="text-xl md:text-2xl font-bold text-brand-green">€60.00</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex gap-2 md:gap-3">
-                                                <button
-                                                    class="flex-1 bg-brand-green text-white py-2.5 md:py-3 px-4 md:px-6 rounded-full text-sm md:text-base font-medium hover:bg-brand-green-dark transition-colors">
-                                                    Iscriviti Ora
-                                                </button>
-                                                <button
-                                                    class="px-4 md:px-6 py-2.5 md:py-3 border border-gray-300 text-gray-700 rounded-full text-sm md:text-base font-medium hover:bg-gray-50 transition-colors">
-                                                    Dettagli
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="swiper-pagination"></div>
-                    </div>
-
-                    <div class="text-center mt-8">
-                        <button
-                            class="border border-brand-green text-brand-green px-6 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-base hover:bg-brand-green hover:text-white transition-colors">
-                            Esplora tutti i nostri corsi
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <section class="py-8 md:py-12 lg:py-16 bg-white">
-                <div class="max-w-[1200px] mx-auto px-4">
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 md:mb-12">
-                        Ultime notizie da UnoSicurezza
-                    </h2>
-
-                    <div class="grid lg:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
-                        <article class="flex flex-col sm:flex-row gap-4">
-                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-                                alt="Team collaboration"
-                                class="w-full sm:w-48 md:w-64 h-56 md:h-64 object-cover rounded-lg flex-shrink-0">
-                            <div class="flex flex-col">
-                                <time class="text-brand-green text-sm font-medium mb-2">November 16, 2015</time>
-                                <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                                    Three Pillars of User Delight
-                                </h3>
-                                <p class="text-gray-600 text-sm mb-4 flex-grow">
-                                    Delight can be experienced viscerally, behaviourally, and reflectively. A great
-                                    design is ...
-                                </p>
-                                <div class="flex gap-2 mt-auto">
-                                    <span
-                                        class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-medium">Research</span>
-                                    <span
-                                        class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">Soft
-                                        skills</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="flex flex-col sm:flex-row gap-4">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-                                alt="Construction worker"
-                                class="w-full sm:w-48 md:w-64 h-56 md:h-64 object-cover rounded-lg flex-shrink-0">
-                            <div class="flex flex-col">
-                                <time class="text-brand-green text-sm font-medium mb-2">November 16, 2015</time>
-                                <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                                    Three Pillars of User Delight
-                                </h3>
-                                <p class="text-gray-600 text-sm mb-4 flex-grow">
-                                    Delight can be experienced viscerally, behaviourally, and reflectively. A great
-                                    design is ...
-                                </p>
-                                <div class="flex gap-2 mt-auto">
-                                    <span
-                                        class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-medium">Research</span>
-                                    <span
-                                        class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">Soft
-                                        skills</span>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div>
-                        <article class="grid lg:grid-cols-2 gap-6 md:gap-8 items-start">
-                            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                                alt="Modern office" class="w-full h-64 md:h-80 object-cover rounded-lg">
-                            <div class="flex flex-col h-full">
-                                <time class="text-brand-green text-sm font-medium mb-2">November 16, 2015</time>
-                                <h3 class="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                                    Agile Development Projects and Usability
-                                </h3>
-                                <p class="text-gray-600 text-sm md:text-base mb-6 flex-grow">
-                                    Agile methods aim to overcome usability barriers in traditional development, but
-                                    post new threats to user experience quality.
-                                </p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span
-                                        class="bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-sm font-medium">Food
-                                        safety</span>
-                                    <span
-                                        class="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-medium">CFP
-                                        courses</span>
-                                    <span
-                                        class="bg-purple-100 text-purple-700 px-4 py-1.5 rounded-full text-sm font-medium">Developments</span>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <section class="py-8 md:py-12 lg:py-16 bg-gradient-to-r from-white via-white to-brand-teal">
-                <div class="max-w-[1200px] mx-auto px-4">
-                    <div class="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-stretch">
-                        <div class="bg-white rounded-lg p-6 md:p-8 shadow-lg">
-                            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6">
-                                Condividi la tua recensione con noi
-                            </h2>
-                            <p class="text-gray-600 text-sm md:text-base mb-6 md:mb-8">
-                                Compila il modulo per condividere la tua esperienza. La tua recensione sarà visibile
-                                dopo l'approvazione.
-                            </p>
-
-                            <form class="space-y-4 md:space-y-6">
-                                <div>
-                                    <input type="text" placeholder="Nome *"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent text-sm md:text-base">
-                                </div>
-
-                                <div>
-                                    <h3 class="text-base md:text-lg font-bold text-gray-900 mb-2">
-                                        Feedback sulla sessione
-                                    </h3>
-                                    <p class="text-gray-600 text-sm md:text-base mb-3 md:mb-4">
-                                        Valuta la tua esperienza qui sotto
-                                    </p>
-
-                                    <div class="flex items-center space-x-3 mb-4">
-                                        <div class="star-rating" id="starRating">
-                                            <span class="star active" data-value="1">★</span>
-                                            <span class="star active" data-value="2">★</span>
-                                            <span class="star active" data-value="3">★</span>
-                                            <span class="star active" data-value="4">★</span>
-                                            <span class="star" data-value="5">★</span>
-                                        </div>
-                                        <span class="text-gray-600 text-sm md:text-base" id="ratingText">4/5
-                                            stars</span>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <textarea placeholder="Lascia un commento" rows="4"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent resize-none text-sm md:text-base"></textarea>
-                                </div>
-
-                                <button type="submit"
-                                    class="w-full bg-brand-green text-white py-3 px-6 rounded-full font-medium hover:bg-brand-green-dark transition-colors text-sm md:text-base">
-                                    Invia
-                                </button>
-                            </form>
-                        </div>
-
-                        <div class="h-[400px] md:h-[500px] lg:h-auto lg:min-h-[500px]">
-                            <div class="bg-white rounded-lg overflow-hidden shadow-lg h-full">
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8195613!3d-6.208763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e67356080477!2sPT%20Kulkul%20Teknologi%20Internasional!5e0!3m2!1sen!2sbd!4v1679899574352!5m2!1sen!2sbd"
-                                    class="w-full h-full border-0" allowfullscreen="" loading="lazy"
-                                    referrerpolicy="no-referrer-when-downgrade">
-                                </iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <footer class="bg-gray-900 text-white py-8 md:py-12 text-center md:text-left">
-                <div class="max-w-[1200px] mx-auto px-4">
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
-                        <div class="col-span-2 md:col-span-3 lg:col-span-1">
-                            <a href="#" class="flex flex-col items-start mb-6">
-                                <img src="images/logo_footer.png" alt="UnoSicurezza Logo"
-                                    class="h-24 md:h-30 w-auto mb-4">
-                            </a>
-
-                            <p class="text-gray-400 text-sm max-w-xs">
-                                © 2022 UnoSicurezza. All rights reserved.
-                            </p>
-                        </div>
-
-                        <div>
-                            <h3 class="font-bold text-white mb-3 md:mb-4 text-sm md:text-base">Prodotto</h3>
-                            <ul class="space-y-2 md:space-y-3 text-gray-400 text-sm">
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Panoramica</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Caratteristiche</a>
-                                </li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Soluzioni</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Esercitazione</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Prezzi</a></li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h3 class="font-bold text-white mb-3 md:mb-4 text-sm md:text-base">Azienda</h3>
-                            <ul class="space-y-2 md:space-y-3 text-gray-400 text-sm">
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Chi siamo</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Corso</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Notizia</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="col-span-2 md:col-span-1">
-                            <h3 class="font-bold text-white mb-3 md:mb-4 text-sm md:text-base">Sociale</h3>
-                            <ul class="space-y-2 md:space-y-3 text-gray-400 text-sm mb-6">
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Twitter</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">LinkedIn</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Facebook</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Instagram</a></li>
-                            </ul>
-
-                            <div>
-                                <h4 class="font-bold text-white mb-3 text-sm md:text-base">Download App</h4>
-                                <div class="flex flex-row gap-4 items-center">
-                                    <!-- Google Play -->
-                                    <a href="#" class="transition transform hover:scale-105">
-                                        <img src="images/google.png" alt="Get it on Google Play" class="h-12 w-auto">
-                                    </a>
-                                    <!-- App Store -->
-                                    <a href="#" class="transition transform hover:scale-105">
-                                        <img src="images/apple.png" alt="Download on the App Store" class="h-12 w-auto">
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="text-center md:text-left">
-                            <h3 class="font-bold text-white mb-3 md:mb-4 text-sm md:text-base">Legale</h3>
-                            <ul class="space-y-2 md:space-y-3 text-gray-400 text-sm">
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Termini</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Privacy</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Biscotti</a></li>
-                                <li><a href="#" class="hover:text-brand-green transition-colors">Contatto</a></li>
-                            </ul>
-                        </div>
-
-
-                    </div>
-                </div>
-            </footer>
+                <button id="mobileMenuBtn" class="lg:hidden btn btn-square btn-ghost">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </nav>
         </div>
+    </header>
+    <!-- ================= Header Section End ================= -->
 
-        <div class="drawer-side z-50">
-            <label for="mobile-drawer" class="drawer-overlay"></label>
-            <div class="menu p-4 w-80 min-h-full bg-white text-base-content">
-                <div class="flex items-center justify-between mb-8">
-                    <img src="images/logo.png" alt="UnoSicurezza Logo" class="h-10 w-auto">
-                    <label for="mobile-drawer" class="btn btn-sm btn-circle btn-ghost">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </label>
+    <!-- ================= Hero Section Start ================= -->
+    <section class="bg-white py-8 md:py-12 lg:py-20">
+        <div class="max-w-[1200px] mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div class="space-y-4 md:space-y-6">
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+                        UnoSicurezza
+                    </h1>
+                    <h2 class="text-lg md:text-xl lg:text-2xl text-gray-600 font-medium">
+                        Ogni nuova competenza è un passo avanti verso il successo.
+                    </h2>
+                    <p class="text-gray-600 text-base md:text-lg leading-relaxed">
+                        Essere in regola con la sicurezza significa proteggere il bene più prezioso: le persone che contribuiscono al successo della tua azienda. Affidati a noi.
+                    </p>
+                    <button class="bg-brand-green text-white px-10 md:px-12 py-4 md:py-5 rounded-full text-lg md:text-xl font-bold hover:bg-brand-green-dark transition-colors">
+                        Esplora i nostri servizi
+                    </button>
                 </div>
 
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-brand-green font-medium text-lg py-3">Home</a></li>
-                    <li><a href="#" class="text-gray-700 text-lg py-3">Servizi</a></li>
-                    <li><a href="#" class="text-gray-700 text-lg py-3">Formazione</a></li>
-                    <li><a href="#" class="text-gray-700 text-lg py-3">Chi siamo</a></li>
-                    <li><a href="#" class="text-gray-700 text-lg py-3">Collabora con noi</a></li>
-                    <li><a href="#" class="text-gray-700 text-lg py-3">Contattaci</a></li>
-                </ul>
+                <div class="relative">
+                    <img src="images/hero1.png" alt="Formazione sulla sicurezza sul lavoro - Team UnoSicurezza" class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================= Hero Section End ================= -->
 
-                <button
-                    class="bg-brand-green text-white px-6 py-3 rounded-lg mt-6 w-full font-medium hover:bg-brand-green-dark transition-colors">
-                    E-Learning
+    <!-- Courses Catalog Section Start -->
+    <section class="py-8 md:py-12 lg:py-16 bg-gray-50 h-fit">
+        <div class="max-w-[1200px] mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 md:mb-12 text-left">
+                Esplora il nostro catalogo corsi
+            </h2>
+
+            <div class="swiper coursesSwiper relative pb-12">
+                <div class="swiper-wrapper">
+                    <!-- Course Card 1 -->
+                    <div class="swiper-slide h-auto">
+                        <div class="bg-white rounded-lg shadow-sm overflow-hidden h-full flex flex-col course-card">
+                            <div class="relative card-media">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Corso SEVESO" />
+                                <div class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    08 hr 12 mins
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-base md:text-lg font-bold text-gray-900 mb-2">
+                                    Formazione SEVESO – pacchetto annuale
+                                </h3>
+                                <p class="text-xs md:text-sm text-gray-600 mb-3 flex-grow line-clamp-2">
+                                    Corso "Seveso III" si riferisce alla direttiva UE 2012/18/UE sulla prevenzione degli incidenti rilevanti...
+                                </p>
+
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center">
+                                        <span class="text-brand-green font-bold mr-1 text-sm">4.3</span>
+                                        <div class="flex text-yellow-400 text-sm"><span>★★★★★</span></div>
+                                        <span class="text-gray-500 text-xs ml-1">(16,325)</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-400 line-through text-xs">€60.00</span>
+                                        <span class="text-lg md:text-xl font-bold text-brand-green">€50.00</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-2 card-actions">
+                                    <button class="flex-1 bg-brand-green text-white py-2 px-3 rounded-full text-sm font-medium hover:bg-brand-green-dark transition-colors">
+                                        Iscriviti Ora
+                                    </button>
+                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors">
+                                        Dettagli
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Card 2 -->
+                    <div class="swiper-slide h-auto">
+                        <div class="bg-white rounded-lg shadow-sm overflow-hidden h-full flex flex-col course-card">
+                            <div class="relative card-media">
+                                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Corso Datore di Lavoro" />
+                                <div class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    16 hr 0 mins
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-base md:text-lg font-bold text-gray-900 mb-2">
+                                    Datore di lavoro (Nuovo) 16 ore
+                                </h3>
+                                <p class="text-xs md:text-sm text-gray-600 mb-3 flex-grow line-clamp-2">
+                                    Accordo, ai sensi dell'articolo 37, comma 2, del decreto legislativo...
+                                </p>
+
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center">
+                                        <span class="text-brand-green font-bold mr-1 text-sm">4.3</span>
+                                        <div class="flex text-yellow-400 text-sm"><span>★★★★★</span></div>
+                                        <span class="text-gray-500 text-xs ml-1">(16,325)</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-400 line-through text-xs">€180.00</span>
+                                        <span class="text-lg md:text-xl font-bold text-brand-green">€110.00</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-2 card-actions">
+                                    <button class="flex-1 bg-brand-green text-white py-2 px-3 rounded-full text-sm font-medium hover:bg-brand-green-dark transition-colors">
+                                        Iscriviti Ora
+                                    </button>
+                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors">
+                                        Dettagli
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Card 3 -->
+                    <div class="swiper-slide h-auto">
+                        <div class="bg-white rounded-lg shadow-sm overflow-hidden h-full flex flex-col course-card">
+                            <div class="relative card-media">
+                                <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Corso Generale" />
+                                <div class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    04 hr 0 mins
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-base md:text-lg font-bold text-gray-900 mb-2">
+                                    Generale 4 ore
+                                </h3>
+                                <p class="text-xs md:text-sm text-gray-600 mb-3 flex-grow line-clamp-2">
+                                    Accordo, ai sensi dell'articolo 37, comma 2...
+                                </p>
+
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center">
+                                        <span class="text-brand-green font-bold mr-1 text-sm">4.3</span>
+                                        <div class="flex text-yellow-400 text-sm"><span>★★★★★</span></div>
+                                        <span class="text-gray-500 text-xs ml-1">(16,325)</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-400 line-through text-xs">€50.00</span>
+                                        <span class="text-lg md:text-xl font-bold text-brand-green">€40.00</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-2 card-actions">
+                                    <button class="flex-1 bg-brand-green text-white py-2 px-3 rounded-full text-sm font-medium hover:bg-brand-green-dark transition-colors">
+                                        Iscriviti Ora
+                                    </button>
+                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors">
+                                        Dettagli
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Card 4 -->
+                    <div class="swiper-slide h-auto">
+                        <div class="bg-white rounded-lg shadow-sm overflow-hidden h-full flex flex-col course-card">
+                            <div class="relative card-media">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Sicurezza Cantieri" />
+                                <div class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    06 hr 30 mins
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-base md:text-lg font-bold text-gray-900 mb-2">
+                                    Sicurezza Cantieri 6 ore
+                                </h3>
+                                <p class="text-xs md:text-sm text-gray-600 mb-3 flex-grow line-clamp-2">
+                                    Corso specializzato per la formazione dei lavoratori...
+                                </p>
+
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center">
+                                        <span class="text-brand-green font-bold mr-1 text-sm">4.5</span>
+                                        <div class="flex text-yellow-400 text-sm"><span>★★★★★</span></div>
+                                        <span class="text-gray-500 text-xs ml-1">(12,850)</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-400 line-through text-xs">€75.00</span>
+                                        <span class="text-lg md:text-xl font-bold text-brand-green">€60.00</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-2 card-actions">
+                                    <button class="flex-1 bg-brand-green text-white py-2 px-3 rounded-full text-sm font-medium hover:bg-brand-green-dark transition-colors">
+                                        Iscriviti Ora
+                                    </button>
+                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors">
+                                        Dettagli
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <div class="text-center mt-8">
+                <button class="border border-brand-green text-brand-green px-6 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-base hover:bg-brand-green hover:text-white transition-colors">
+                    Esplora tutti i nostri corsi
                 </button>
             </div>
         </div>
+    </section>
+    <!-- Courses Catalog Section End -->
+
+    <!-- ================= News/Blog Section Start ================= -->
+    <section class="py-8 md:py-12 lg:py-16 bg-white">
+        <div class="max-w-[1200px] mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 md:mb-12">
+                Ultime notizie da UnoSicurezza
+            </h2>
+
+            <div class="grid lg:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
+                <!-- News Article 1 -->
+                <article class="flex flex-col sm:flex-row gap-4">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Collaborazione team formazione sicurezza" class="w-full sm:w-48 md:w-64 h-56 md:h-64 object-cover rounded-lg flex-shrink-0">
+                    <div class="flex flex-col">
+                        <time class="text-brand-green text-sm font-medium mb-2">15 Settembre 2025</time>
+                        <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-3">
+                            Three Pillars of User Delight
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 flex-grow">
+                            Delight can be experienced viscerally, behaviourally, and reflectively. A great design is ...
+                        </p>
+                        <div class="flex gap-2 mt-auto">
+                            <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-medium">Research</span>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">Soft skills</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News Article 2 -->
+                <article class="flex flex-col sm:flex-row gap-4">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Operaio cantiere sicurezza" class="w-full sm:w-48 md:w-64 h-56 md:h-64 object-cover rounded-lg flex-shrink-0">
+                    <div class="flex flex-col">
+                        <time class="text-brand-green text-sm font-medium mb-2">10 Settembre 2025</time>
+                        <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-3">
+                            Three Pillars of User Delight
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 flex-grow">
+                            Delight can be experienced viscerally, behaviourally, and reflectively. A great design is ...
+                        </p>
+                        <div class="flex gap-2 mt-auto">
+                            <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-medium">Research</span>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">Soft skills</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Featured Article -->
+            <div>
+                <article class="grid lg:grid-cols-2 gap-6 md:gap-8 items-start">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ufficio moderno formazione aziendale" class="w-full h-64 md:h-80 object-cover rounded-lg">
+                    <div class="flex flex-col h-full">
+                        <time class="text-brand-green text-sm font-medium mb-2">5 Settembre 2025</time>
+                        <h3 class="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+                            Agile Development Projects and Usability
+                        </h3>
+                        <p class="text-gray-600 text-sm md:text-base mb-6 flex-grow">
+                            Agile methods aim to overcome usability barriers in traditional development, but post new threats to user experience quality.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-sm font-medium">Food safety</span>
+                            <span class="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-medium">CFP courses</span>
+                            <span class="bg-purple-100 text-purple-700 px-4 py-1.5 rounded-full text-sm font-medium">Developments</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    <!-- ================= News/Blog Section End ================= -->
+
+    <!-- ================= Review & Map Section Start ================= -->
+    <section class="py-8 md:py-12 lg:py-16 bg-gradient-to-r from-white via-white to-brand-teal">
+        <div class="max-w-[1200px] mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-stretch">
+                <!-- Review Form -->
+                <div class="bg-white rounded-lg p-6 md:p-8 shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6">
+                        Condividi la tua recensione con noi
+                    </h2>
+                    <p class="text-gray-600 text-sm md:text-base mb-6 md:mb-8">
+                        Compila il modulo per condividere la tua esperienza. La tua recensione sarà visibile dopo l'approvazione.
+                    </p>
+
+                    <form class="space-y-4 md:space-y-6">
+                        <div>
+                            <input type="text" placeholder="Nome *" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent text-sm md:text-base">
+                        </div>
+
+                        <div>
+                            <h3 class="text-base md:text-lg font-bold text-gray-900 mb-2">
+                                Feedback sulla sessione
+                            </h3>
+                            <p class="text-gray-600 text-sm md:text-base mb-3 md:mb-4">
+                                Valuta la tua esperienza qui sotto
+                            </p>
+
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="star-rating" id="starRating">
+                                    <span class="star active" data-value="1">★</span>
+                                    <span class="star active" data-value="2">★</span>
+                                    <span class="star active" data-value="3">★</span>
+                                    <span class="star active" data-value="4">★</span>
+                                    <span class="star" data-value="5">★</span>
+                                </div>
+                                <span class="text-gray-600 text-sm md:text-base" id="ratingText">4/5 stars</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <textarea placeholder="Lascia un commento" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent resize-none text-sm md:text-base"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-brand-green text-white py-3 px-6 rounded-full font-medium hover:bg-brand-green-dark transition-colors text-sm md:text-base">
+                            Invia
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Google Map -->
+                <div class="h-[400px] md:h-[500px] lg:h-auto lg:min-h-[500px]">
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg h-full">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8195613!3d-6.208763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e67356080477!2sPT%20Kulkul%20Teknologi%20Internasional!5e0!3m2!1sen!2sbd!4v1679899574352!5m2!1sen!2sbd" class="w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="UnoSicurezza Location Map">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================= Review & Map Section End ================= -->
+
+    <!-- ================= Footer Section Start ================= -->
+    <footer class="bg-gray-900 text-white py-8 md:py-12">
+        <div class="max-w-[1200px] mx-auto px-4">
+            <!-- Top Section: Logo + Link Columns -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 mb-8">
+                <!-- Logo Column -->
+                <div class="col-span-2 md:col-span-3 lg:col-span-1">
+                    <a href="#" class="flex flex-col items-start mb-6">
+                        <img src="images/logo_footer.png" alt="UnoSicurezza Logo Footer" class="h-24 md:h-28 lg:h-32 w-auto mb-4">
+                    </a>
+                </div>
+
+                <!-- Prodotto Column -->
+                <div>
+                    <h3 class="font-bold text-white mb-3 md:mb-4 text-sm md:text-base">Prodotto</h3>
+                    <ul class="space-y-2 md:space-y-3 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Panoramica</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Caratteristiche</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Soluzioni</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Esercitazione</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Prezzi</a></li>
+                    </ul>
+                </div>
+
+                <!-- Azienda Column -->
+                <div>
+                    <h3 class="font-bold text-white mb-3 md:mb-4 text-sm md:text-base">Azienda</h3>
+                    <ul class="space-y-2 md:space-y-3 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Chi siamo</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Corso</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Notizia</a></li>
+                    </ul>
+                </div>
+
+                <!-- Sociale Column -->
+                <div>
+                    <h3 class="font-bold text-white mb-3 md:mb-4 text-sm md:text-base">Sociale</h3>
+                    <ul class="space-y-2 md:space-y-3 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Twitter</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Facebook</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Instagram</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legale Column -->
+                <div>
+                    <h3 class="font-bold text-white mb-3 md:mb-4 text-sm md:text-base">Legale</h3>
+                    <ul class="space-y-2 md:space-y-3 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Termini</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Privacy</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Biscotti</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Contatto</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Section: Copyright + App Downloads -->
+            <div class="flex flex-col md:flex-row justify-between items-center border-t border-gray-700 pt-6 mt-6 gap-4">
+                <p class="text-gray-400 text-sm text-center md:text-left">© 2022 UnoSicurezza. All rights reserved.</p>
+                
+                <div class="flex flex-row gap-4 items-center">
+                    <a href="#" class="transition transform hover:scale-105" aria-label="Download on Google Play">
+                        <img src="images/google.png" alt="Get it on Google Play" class="h-12 w-auto">
+                    </a>
+                    <a href="#" class="transition transform hover:scale-105" aria-label="Download on App Store">
+                        <img src="images/apple.png" alt="Download on the App Store" class="h-12 w-auto">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ================= Footer Section End ================= -->
+
+    <!-- Mobile Drawer Sidebar -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="p-4 h-full overflow-y-auto">
+            <div class="flex items-center justify-between mb-8">
+                <img src="images/logo.png" alt="UnoSicurezza Logo" class="h-10 w-auto">
+                <button id="closeDrawerBtn" class="btn btn-sm btn-circle btn-ghost">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <ul class="space-y-2">
+                <li><a href="#" class="block text-brand-green font-medium text-lg py-3 px-4 rounded hover:bg-gray-100">Home</a></li>
+                <li><a href="#" class="block text-gray-700 text-lg py-3 px-4 rounded hover:bg-gray-100">Servizi</a></li>
+                <li><a href="#" class="block text-gray-700 text-lg py-3 px-4 rounded hover:bg-gray-100">Formazione</a></li>
+                <li><a href="#" class="block text-gray-700 text-lg py-3 px-4 rounded hover:bg-gray-100">Chi siamo</a></li>
+                <li><a href="#" class="block text-gray-700 text-lg py-3 px-4 rounded hover:bg-gray-100">Collabora con noi</a></li>
+                <li><a href="#" class="block text-gray-700 text-lg py-3 px-4 rounded hover:bg-gray-100">Contattaci</a></li>
+            </ul>
+
+            <button class="bg-brand-green text-white px-6 py-3 rounded-full mt-6 w-full font-medium hover:bg-brand-green-dark transition-colors">
+                E-Learning
+            </button>
+        </div>
     </div>
 
+    <!-- ================= JavaScript Section Start ================= -->
     <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+        const mobileDrawer = document.getElementById('mobileDrawer');
+        const drawerOverlay = document.getElementById('drawerOverlay');
+
+        function openDrawer() {
+            mobileDrawer.classList.add('active');
+            drawerOverlay.classList.add('active');
+            document.body.classList.add('drawer-open');
+        }
+
+        function closeDrawer() {
+            mobileDrawer.classList.remove('active');
+            drawerOverlay.classList.remove('active');
+            document.body.classList.remove('drawer-open');
+        }
+
+        mobileMenuBtn.addEventListener('click', openDrawer);
+        closeDrawerBtn.addEventListener('click', closeDrawer);
+        drawerOverlay.addEventListener('click', closeDrawer);
+
+        // Close drawer on link click
+        const drawerLinks = mobileDrawer.querySelectorAll('a');
+        drawerLinks.forEach(link => {
+            link.addEventListener('click', closeDrawer);
+        });
+
+        // Swiper Initialization
         const swiper = new Swiper('.coursesSwiper', {
             slidesPerView: 3,
             spaceBetween: 30,
@@ -745,7 +677,7 @@
                 el: '.swiper-pagination',
                 clickable: true,
             },
-            speed: 0,
+            speed: 600,
             breakpoints: {
                 320: {
                     slidesPerView: 1,
@@ -772,12 +704,14 @@
         let currentRating = 4;
 
         stars.forEach((star, index) => {
+            // Click event
             star.addEventListener('click', () => {
                 currentRating = index + 1;
                 updateStars();
                 ratingText.textContent = `${currentRating}/5 stars`;
             });
 
+            // Hover event
             star.addEventListener('mouseenter', () => {
                 stars.forEach((s, i) => {
                     if (i <= index) {
@@ -789,10 +723,13 @@
             });
         });
 
-        document.getElementById('starRating').addEventListener('mouseleave', () => {
+        // Reset to current rating on mouse leave
+        const starRatingContainer = document.getElementById('starRating');
+        starRatingContainer.addEventListener('mouseleave', () => {
             updateStars();
         });
 
+        // Update stars based on current rating
         function updateStars() {
             stars.forEach((star, index) => {
                 if (index < currentRating) {
@@ -803,6 +740,6 @@
             });
         }
     </script>
+    <!-- ================= JavaScript Section End ================= -->
 </body>
-
 </html>
